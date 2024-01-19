@@ -17,7 +17,6 @@ def timer_reset():
     window.after_cancel(timer)
     reps = 0
     check = ""
-    change_back()
     button1.config(state="normal")
     label1.config(text="Timer")
     canvas.itemconfig(timer_text, text="00:00")
@@ -48,10 +47,8 @@ def count_down(count):
     count_min = count // 60
     count_sec = count % 60
 
-    if count_min == 0 and count_sec <= 10:
-        change_canvas_timer_text_fill()
-    if count_min == 0 and count_sec == 0:
-        change_back()
+    if count_min == 0 and count_sec == 10:
+        change_canvas_timer_text_fill(10)
 
     if count_sec < 10:
         count_sec = f"0{count_sec}"
@@ -72,10 +69,12 @@ def count_down(count):
 
         start_timer()
 
-def change_canvas_timer_text_fill():
+def change_canvas_timer_text_fill(count):
     canvas.itemconfig(timer_text, fill="yellow")
-def change_back():
-    canvas.itemconfig(timer_text, fill="white")
+    if count > 0:
+        window.after(1000, change_canvas_timer_text_fill, count - 1)
+    else:
+        canvas.itemconfig(timer_text, fill="white")
 
 # ---------------------------- UI SETUP ------------------------------- #
 
