@@ -25,9 +25,9 @@ def start_timer():
     global reps
     reps += 1
     button1.config(state="disabled")
-    work_sec = WORK_MIN * 60
-    short_break_sec = SHORT_BREAK_MIN * 60
-    long_break_sec = LONG_BREAK_MIN * 60
+    work_sec = WORK_MIN * 1
+    short_break_sec = SHORT_BREAK_MIN * 1
+    long_break_sec = LONG_BREAK_MIN * 1
 
     if reps % 8 == 0:
         label1.config(text="Break", fg=RED)
@@ -68,6 +68,17 @@ def count_down(count):
             label2.config(text=check)
 
         start_timer()
+
+        if reps > 8:
+            window.after_cancel(timer)
+            label1.config(text="Done:) ", fg="purple")
+            check = check + "✔"
+            label2.config(text=check)
+            canvas.itemconfig(timer_text, text="00:00")
+            button1['state'] = DISABLED
+
+
+
 
 def change_canvas_timer_text_fill(count):
     canvas.itemconfig(timer_text, fill="yellow")
